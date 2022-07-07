@@ -1,5 +1,5 @@
 import streamlit as st
-import pandas as pd
+import pyperclip
 
 st.title('아빠를 위한 줄바꿈 캐릭터 없애기')
 
@@ -14,5 +14,4 @@ with right_column:
     st.write("출력 텍스트")
     st.write(edited_text)
     if st.button('복사하기'):
-        df=pd.DataFrame([edited_text])
-        df.to_clipboard(index=False,header=False)
+        pyperclip.copy(edited_text)
