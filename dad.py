@@ -1,3 +1,4 @@
+import re
 import streamlit as st
 from bokeh.models.widgets import Button
 from bokeh.models import CustomJS
@@ -10,7 +11,9 @@ left_column, right_column = st.columns(2)
 with left_column:
     st.text_area("입력 텍스트", height=512, key="text")
 
-edited_text = st.session_state.text.replace("\n\n", "#뜀#").replace("\n", "").replace("#뜀#", "\n")
+substituted_text = re.sub("\n(\s*\n+\s*)+", "<뜀>", st.session_state.text)
+replaced_text = re.sub("\s*\n+\s*", " ", substituted_text)
+edited_text = replaced_text.replace("<뜀>", "\n\n")
 
 with right_column:
     st.write("출력 텍스트")
