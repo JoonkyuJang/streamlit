@@ -1,10 +1,8 @@
 import re
 import streamlit as st
-from bokeh.models.widgets import Button
-from bokeh.models import CustomJS
-from streamlit_bokeh_events import streamlit_bokeh_events
+import pyperclip
 
-st.title('아빠를 위한 줄바꿈 캐릭터 없애기')
+st.title("아빠를 위한 줄바꿈 캐릭터 없애기")
 
 left_column, right_column = st.columns(2)
 
@@ -17,17 +15,8 @@ edited_text = replaced_text.replace("<뜀>", "\n\n")
 
 with right_column:
     st.write("출력 텍스트")
-    st.write(edited_text)
+    st.markdown(edited_text)
 
-    copy_button = Button(label="복사하기")
-    copy_button.js_on_event("button_click", CustomJS(args=dict(edited_text=edited_text), code="""
-        navigator.clipboard.writeText(edited_text);
-        """))
-
-    no_event = streamlit_bokeh_events(
-        copy_button,
-        events="GET_TEXT",
-        key="get_text",
-        refresh_on_update=True,
-        override_height=75,
-        debounce_time=0)
+    if st.button("복사하기"):
+        pyperclip.copy(edited_text)
+        st.success("복사완료!")
